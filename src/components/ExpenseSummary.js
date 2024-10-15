@@ -1,5 +1,3 @@
-// src/components/ExpenseSummary.js
-
 import { useState, useEffect } from 'react';
 import {
   Paper,
@@ -20,7 +18,7 @@ import {
   Box,
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-import axios from 'axios';
+import { format } from 'date-fns';
 
 const ExpenseSummary = ({ expenses }) => {
   const [monthlyTotals, setMonthlyTotals] = useState([]);
@@ -29,15 +27,20 @@ const ExpenseSummary = ({ expenses }) => {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
+  // Convert Firestore Timestamp to JavaScript Date
+  const convertFirestoreTimestampToDate = (timestamp) => {
+    return new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+  };
+
   // Calculate total expenses per month
   useEffect(() => {
-    const totals = expenses.reduce((acc, expense) => {
-      const date = new Date(expense.date);
-      const month = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    const totals = expenses?.reduce((acc, expense) => {
+      const date = convertFirestoreTimestampToDate(expense?.date); // Convert Firestore timestamp to Date
+      const month = date?.toLocaleString('default', { month: 'long', year: 'numeric' });
       if (!acc[month]) {
         acc[month] = 0;
       }
-      acc[month] += expense.amount;
+      acc[month] += expense?.amount;
       return acc;
     }, {});
 
@@ -59,8 +62,8 @@ const ExpenseSummary = ({ expenses }) => {
       const [monthName, year] = month.split(' ');
       const monthIndex = new Date(`${monthName} 1, ${year}`).getMonth(); // 0-based index
 
-      const filteredExpenses = expenses.filter((expense) => {
-        const expenseDate = new Date(expense.date);
+      const filteredExpenses = expenses?.filter((expense) => {
+        const expenseDate = convertFirestoreTimestampToDate(expense?.date); // Convert Firestore timestamp to Date
         return (
           expenseDate.getMonth() === monthIndex &&
           expenseDate.getFullYear() === parseInt(year)
@@ -87,7 +90,7 @@ const ExpenseSummary = ({ expenses }) => {
         Total Expenses per Month
       </Typography>
       <List>
-        {monthlyTotals.map(({ month, total }) => (
+        {monthlyTotals?.map(({ month, total }) => (
           <ListItem
             key={month}
             secondaryAction={
@@ -100,11 +103,11 @@ const ExpenseSummary = ({ expenses }) => {
           >
             <ListItemText
               primary={month}
-              secondary={`Total: ₹${total.toFixed(2)}`}
+              secondary={`Total: ₹${total?.toFixed(2)}`}
             />
           </ListItem>
         ))}
-        {monthlyTotals.length === 0 && (
+        {monthlyTotals?.length === 0 && (
           <ListItem>
             <ListItemText primary="No expenses to display." />
           </ListItem>
@@ -121,7 +124,7 @@ const ExpenseSummary = ({ expenses }) => {
             </Box>
           ) : (
             <>
-              {monthlyExpenses.length > 0 ? (
+              {monthlyExpenses?.length > 0 ? (
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -132,14 +135,14 @@ const ExpenseSummary = ({ expenses }) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {monthlyExpenses.map((expense) => (
-                      <TableRow key={expense.id}>
+                    {monthlyExpenses?.map((expense) => (
+                      <TableRow key={expense?.id}>
                         <TableCell>
-                          {new Date(expense.date).toLocaleDateString()}
+                          {format(convertFirestoreTimestampToDate(expense?.date), 'dd/MM/yyyy')} {/* Format date */}
                         </TableCell>
-                        <TableCell>{expense.amount.toFixed(2)}</TableCell>
-                        <TableCell>{expense.category.name}</TableCell>
-                        <TableCell>{expense.description}</TableCell>
+                        <TableCell>{expense?.amount?.toFixed(2)}</TableCell>
+                        <TableCell>{expense?.category}</TableCell>
+                        <TableCell>{expense?.description}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
