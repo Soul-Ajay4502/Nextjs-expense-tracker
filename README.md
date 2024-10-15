@@ -16,7 +16,7 @@ A web application for tracking personal expenses and managing budgets with NEXT.
 - Data storage using Firebase Firestore.
 
 ## Technologies Used
-- React
+- Next js
 - Material-UI
 - Firebase (Firestore)
 - Axios
