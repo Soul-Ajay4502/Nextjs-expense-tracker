@@ -30,7 +30,8 @@ To get a local copy up and running, follow these simple steps:
    git clone https://github.com/yourusername/expense-tracker.git
 
 ## Usage
-
-1.npm i
-2.npm run build
-3.npm start
+1. Clone the repository:
+   ```bash
+   1.npm i
+   2.npm run build
+   3.npm start
