@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 
 // Your Firebase configuration object
 const firebaseConfig = {
-    apiKey: "AIzaSyDH1G1xq1NuN_8NxfDkykNAttCpBd7L4PE",
+    apiKey: process.env.FIREBASE_API_KEY,
     authDomain: "next-js-expence-tracker.firebaseapp.com",
     projectId: "next-js-expence-tracker",
     storageBucket: "next-js-expence-tracker.appspot.com",
