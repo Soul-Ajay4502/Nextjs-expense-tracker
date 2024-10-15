@@ -82,7 +82,7 @@ const Dashboard = () => {
           centered
           textColor="primary"
           indicatorColor="primary"
-          sx={{ marginBottom: '0.5rem', background: 'white', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
+          sx={{ marginBottom: '0.5rem', background: 'white', borderRadius: '10px' }}
         >
           <Tab label={editingExpense ? 'Edit Expense' : 'Add Expense'} />
           <Tab label="Expenses" />
