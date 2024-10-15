@@ -1,6 +1,6 @@
 # Expense Tracker
 
-A web application for tracking personal expenses and managing budgets.
+A web application for tracking personal expenses and managing budgets with NEXT.js.
 
 ## Table of Contents
 - [Features](#features)
