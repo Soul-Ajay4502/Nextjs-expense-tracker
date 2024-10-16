@@ -1,5 +1,3 @@
-// src/components/ExpenseList?.js
-
 import {
   Table,
   TableHead,
@@ -9,11 +7,17 @@ import {
   IconButton,
   Paper,
   Typography,
+  TableContainer,
+  useMediaQuery,
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import axios from 'axios';
+import { useTheme } from '@mui/material/styles';
 
 const ExpenseList = ({ expenses, onEdit, onDeleteSuccess }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // Check for small screen sizes
+
   const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this expense?')) {
       try {
@@ -37,44 +41,44 @@ const ExpenseList = ({ expenses, onEdit, onDeleteSuccess }) => {
       <Typography variant="h6" gutterBottom>
         Expenses
       </Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Amount</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell align="right">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {expenses?.map((expense) => (
-            <TableRow key={expense?.id}>
-              <TableCell>
-                {formatDate(expense?.date)} {/* Use the formatDate function */}
-              </TableCell>
-              <TableCell>₹{expense?.amount?.toFixed(2)}</TableCell>
-              <TableCell>{expense?.category}</TableCell>
-              <TableCell>{expense?.description}</TableCell>
-              <TableCell align="right">
-                <IconButton onClick={() => onEdit(expense)} color="primary">
-                  <Edit />
-                </IconButton>
-                <IconButton onClick={() => handleDelete(expense?.id)} color="secondary">
-                  <Delete />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-          {expenses?.length === 0 && (
+      <TableContainer style={{ maxWidth: '100%', overflowX: 'auto' }}>
+        <Table>
+          <TableHead>
             <TableRow>
-              <TableCell colSpan={5} align="center">
-                No expenses found?.
-              </TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Amount</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {expenses?.map((expense) => (
+              <TableRow key={expense?.id}>
+                <TableCell>{formatDate(expense?.date)}</TableCell>
+                <TableCell>₹{expense?.amount?.toFixed(2)}</TableCell>
+                <TableCell>{expense?.category}</TableCell>
+                <TableCell>{expense?.description}</TableCell>
+                <TableCell align="right">
+                  <IconButton onClick={() => onEdit(expense)} color="primary">
+                    <Edit />
+                  </IconButton>
+                  <IconButton onClick={() => handleDelete(expense?.id)} color="secondary">
+                    <Delete />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+            {expenses?.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={5} align="center">
+                  No expenses found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Paper>
   );
 };
