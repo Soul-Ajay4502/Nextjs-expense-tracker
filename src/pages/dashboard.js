@@ -84,9 +84,9 @@ const Dashboard = () => {
           indicatorColor="primary"
           sx={{ marginBottom: '0.5rem', background: 'white', borderRadius: '10px' }}
         >
-          <Tab label={editingExpense ? 'Edit Expense' : 'Add Expense'} />
-          <Tab label="Expenses" />
-          <Tab label="Summary" />
+          <Tab label={editingExpense ? 'Edit Expense' : 'Add Expense'} sx={{width:'33%'}}/>
+          <Tab label="Expenses" sx={{width:'33%'}}/>
+          <Tab label="Summary" sx={{width:'33%'}}/>
         </Tabs>
         <TabPanel value={activeTab} index={0}>
           
