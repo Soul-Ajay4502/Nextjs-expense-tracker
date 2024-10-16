@@ -149,7 +149,7 @@ const TabPanel = (props) => {
       aria-labelledby={`dashboard-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box >{children}</Box>}
     </div>
   );
 };
